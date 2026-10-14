@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerPath | Career and College Assessment</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">CP</div>
+            <div>
+                <h2>CareerPath</h2>
+                <small>Guidance System</small>
+            </div>
+        </div>
+
+        <p class="menu-label">MAIN MENU</p>
+        <button class="nav-link active" data-page="dashboard">▦ Dashboard</button>
+        <button class="nav-link" data-page="students">♙ Students</button>
+        <button class="nav-link" data-page="assessment">✓ Assessment</button>
+        <button class="nav-link" data-page="questions">☷ Questions</button>
+        <button class="nav-link" data-page="courses">▤ College Courses</button>
+        <button class="nav-link" data-page="schools">⌂ Schools</button>
+        <button class="nav-link" data-page="results">▥ Assessment Results</button>
+
+        <p class="menu-label">CAREER GUIDANCE</p>
+        <a class="nav-link extra-link" href="/static/exit-survey.html">
+            ☑ Curriculum Exit Survey
+        </a>
+        <a class="nav-link extra-link" href="/static/exit-dashboard.html">
+            ▥ Survey Analytics &amp; Graphs
+        </a>
+
+        <p class="menu-label">QUESTION BANK TOOLS</p>
+        <a class="nav-link extra-link" href="/api/questions/template">
+            ↓ Download Excel Template
+        </a>
+        <a class="nav-link extra-link" href="/api/questions/export">
+            ⇧ Export Questions to Excel
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-note">
+                <strong>Career guidance</strong>
+                <p>Helping students explore possible college pathways.</p>
+            </div>
+            <small>CareerPath System · Prototype</small>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">GENERAL TINIO SENIOR HIGH SCHOOL</p>
+                <h1 id="page-title">Dashboard</h1>
+            </div>
+            <div class="admin-chip">
+                <span class="online-dot"></span> Administrator
+            </div>
+        </header>
+
+        <div id="notice" class="notice hidden"></div>
+
+        <!-- DASHBOARD -->
+        <section id="page-dashboard" class="page">
+            <div class="welcome-banner">
+                <div>
+                    <p class="eyebrow light">CAREER AND COLLEGE GUIDANCE</p>
+                    <h2>Help students discover their next step.</h2>
+                    <p>Manage student records, assessments, courses, and recommendations in one place.</p>
+                </div>
+                <div class="banner-symbol">✦</div>
+            </div>
+
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <span class="stat-icon blue">♙</span>
+                    <p>Total Students</p>
+                    <h2 id="stat-students">0</h2>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-icon yellow">✓</span>
+                    <p>Assessments</p>
+                    <h2 id="stat-assessments">0</h2>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-icon purple">▤</span>
+                    <p>College Courses</p>
+                    <h2 id="stat-courses">0</h2>
+                </article>
+                <article class="stat-card">
+                    <span class="stat-icon green">☷</span>
+                    <p>Active Questions</p>
+                    <h2 id="stat-questions">0</h2>
+                </article>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Choose what you want to manage.</p>
+                    </div>
+                </div>
+
+                <div class="quick-grid">
+                    <button class="quick-action" data-goto="students">
+                        <span>♙</span>
+                        <strong>Manage Students</strong>
+                        <small>Add and view student records</small>
+                    </button>
+                    <button class="quick-action" data-goto="assessment">
+                        <span>✓</span>
+                        <strong>Start Assessment</strong>
+                        <small>Record answers and generate results</small>
+                    </button>
+                    <button class="quick-action" data-goto="courses">
+                        <span>▤</span>
+                        <strong>Manage Courses</strong>
+                        <small>Add college programs</small>
+                    </button>
+                    <button class="quick-action" data-goto="results">
+                        <span>▥</span>
+                        <strong>View Results</strong>
+                        <small>Review completed assessments</small>
+                    </button>
+                    <a class="quick-action extra-action" href="/static/exit-survey.html">
+                        <span>☑</span>
+                        <strong>Curriculum Exit Survey</strong>
+                        <small>Record students' post-SHS plans</small>
+                    </a>
+                    <a class="quick-action extra-action" href="/static/exit-dashboard.html">
+                        <span>▥</span>
+                        <strong>View Survey Graphs</strong>
+                        <small>Analyze students' plans and preferences</small>
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Career Guidance Analytics</h2>
+                        <p>View charts based on submitted Curriculum Exit Survey responses.</p>
+                    </div>
+                    <a class="primary-btn link-button" href="/static/exit-dashboard.html">
+                        Open All Graphs
+                    </a>
+                </div>
+                <p class="muted">
+                    The survey dashboard includes curriculum exits, strands, learning
+                    experiences, encountered problems, study support, college choices,
+                    employment choices, business ideas, TESDA choices, and school recommendations.
+                </p>
+            </div>
+        </section>
+
+        <!-- STUDENTS -->
+        <section id="page-students" class="page hidden">
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Student Records</h2>
+                        <p>Register and view Grade 12 students.</p>
+                    </div>
+                </div>
+
+                <form id="student-form" class="form-grid">
+                    <label>
+                        Full Name
+                        <input name="full_name" required placeholder="e.g. Juan Dela Cruz">
+                    </label>
+                    <label>
+                        Email Address
+                        <input name="email" type="email" placeholder="student@example.com">
+                    </label>
+                    <label>
+                        Grade Level
+                        <input name="grade_level" value="Grade 12" required>
+                    </label>
+                    <label>
+                        Strand
+                        <select name="strand">
+                            <option value="">Select strand</option>
+                            <option>STEM</option>
+                            <option>ABM</option>
+                            <option>HUMSS</option>
+                            <option>GAS</option>
+                            <option>TVL-ICT</option>
+                            <option>TVL-HE</option>
+                            <option>Other</option>
+                        </select>
+                    </label>
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit">+ Add Student</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Registered Students</h2>
+                        <p id="students-count">Student list</p>
+                    </div>
+                    <button class="secondary-btn" onclick="loadStudents()">Refresh</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Grade</th>
+                                <th>Strand</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ASSESSMENT -->
+        <section id="page-assessment" class="page hidden">
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Student Assessment</h2>
+                        <p>Select a student, answer the questions, and generate a recommendation.</p>
+                    </div>
+                </div>
+
+                <form id="assessment-form">
+                    <label class="wide-label">
+                        Student
+                        <select id="assessment-student" required>
+                            <option value="">Choose a registered student</option>
+                        </select>
+                    </label>
+
+                    <div id="assessment-questions" class="assessment-list">
+                        <p class="muted">Loading assessment questions...</p>
+                    </div>
+
+                    <button class="primary-btn" type="submit">Submit Assessment</button>
+                </form>
+
+                <div id="assessment-output" class="result-panel hidden"></div>
+            </div>
+        </section>
+
+        <!-- QUESTIONS -->
+        <section id="page-questions" class="page hidden">
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Assessment Questions</h2>
+                        <p>Each answer needs a scoring rule for a category.</p>
+                    </div>
+                </div>
+
+                <form id="question-form" class="form-grid">
+                    <label class="full-width">
+                        Question Text
+                        <textarea name="question_text" required
+                            placeholder="Which activity do you enjoy the most?"></textarea>
+                    </label>
+
+                    <label>
+                        Question Category
+                        <input name="category" required value="Interest">
+                    </label>
+                    <label>
+                        Option A
+                        <input name="option_a" required placeholder="Solving computer problems">
+                    </label>
+                    <label>
+                        Option B
+                        <input name="option_b" required placeholder="Helping and teaching people">
+                    </label>
+                    <label>
+                        Option C
+                        <input name="option_c" required placeholder="Designing creative projects">
+                    </label>
+                    <label>
+                        Option D
+                        <input name="option_d" required placeholder="Organizing business activities">
+                    </label>
+
+                    <p class="full-width muted">
+                        Scoring categories are examples only. Confirm the assessment
+                        categories and point values with your adviser or guidance personnel.
+                    </p>
+
+                    <label>
+                        Option A Category
+                        <input name="score_a" required value="Technology">
+                    </label>
+                    <label>
+                        Option B Category
+                        <input name="score_b" required value="Education">
+                    </label>
+                    <label>
+                        Option C Category
+                        <input name="score_c" required value="Arts and Design">
+                    </label>
+                    <label>
+                        Option D Category
+                        <input name="score_d" required value="Business and Management">
+                    </label>
+
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit">+ Add Question</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Question Bank</h2>
+                        <p>Questions available for assessment.</p>
+                    </div>
+                    <div class="heading-actions">
+                        <button class="secondary-btn" onclick="loadQuestions()">Refresh</button>
+                        <a class="secondary-btn link-button" href="/api/questions/template">Excel Template</a>
+                        <a class="secondary-btn link-button" href="/api/questions/export">Export Excel</a>
+                    </div>
+                </div>
+
+                <form id="excel-import-form" class="form-grid">
+                    <label class="full-width">
+                        Import Questions from Excel (.xlsx)
+                        <input type="file" id="question-excel-file" accept=".xlsx" required>
+                    </label>
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit">Import Excel Questions</button>
+                    </div>
+                </form>
+
+                <p id="excel-import-message" class="muted" role="status"></p>
+                <div id="questions-list" class="record-list"></div>
+            </div>
+        </section>
+
+        <!-- COURSES -->
+        <section id="page-courses" class="page hidden">
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>College Courses</h2>
+                        <p>Add programs to support course recommendations.</p>
+                    </div>
+                </div>
+
+                <form id="course-form" class="form-grid">
+                    <label>
+                        Program Name
+                        <input name="program_name" required
+                            placeholder="e.g. Bachelor of Science in Information Technology">
+                    </label>
+                    <label>
+                        Duration (years)
+                        <input name="duration_years" type="number" min="1" max="10" value="4">
+                    </label>
+                    <label class="full-width">
+                        Description
+                        <textarea name="description" placeholder="Short program description"></textarea>
+                    </label>
+                    <label>
+                        Related Skills
+                        <input name="skills_required" placeholder="Technology, problem solving">
+                    </label>
+                    <label>
+                        Career Opportunities
+                        <input name="career_opportunities" placeholder="Web developer, IT support">
+                    </label>
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit">+ Add Course</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Available Programs</h2>
+                        <p>Course records currently stored in the database.</p>
+                    </div>
+                    <button class="secondary-btn" onclick="loadCourses()">Refresh</button>
+                </div>
+                <div id="courses-list" class="tile-grid"></div>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Skills-to-Program Matching</h2>
+                        <p>Compare a student's skills with program requirements.</p>
+                    </div>
+                </div>
+
+                <form id="matching-form" class="form-grid">
+                    <label class="full-width">
+                        Student Skills
+                        <input id="matching-skills" required
+                            placeholder="e.g. programming, communication, problem solving">
+                    </label>
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit">Find Matching Programs</button>
+                    </div>
+                </form>
+                <div id="matching-results" class="record-list"></div>
+            </div>
+        </section>
+
+        <!-- SCHOOLS -->
+        <section id="page-schools" class="page hidden">
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Schools and Colleges</h2>
+                        <p>Manage school information. Verify details before publishing.</p>
+                    </div>
+                </div>
+
+                <form id="school-form" class="form-grid">
+                    <label>
+                        School Name
+                        <input name="school_name" required placeholder="School or college name">
+                    </label>
+                    <label>
+                        Location
+                        <input name="location" placeholder="Municipality / Province">
+                    </label>
+                    <label>
+                        Website
+                        <input name="website" type="url" placeholder="https://example.edu.ph">
+                    </label>
+                    <label>
+                        Contact Details
+                        <input name="contact_details" placeholder="Email or phone">
+                    </label>
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit">+ Add School</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>School Directory</h2>
+                        <p>Schools recorded in the database.</p>
+                    </div>
+                    <button class="secondary-btn" onclick="loadSchools()">Refresh</button>
+                </div>
+                <div id="schools-list" class="tile-grid"></div>
+            </div>
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Tuition Fee Breakdown</h2>
+                        <p>View the estimated tuition and miscellaneous fees recorded for each school-program combination.</p>
+                    </div>
+                    <button class="secondary-btn" onclick="loadTuition()">Refresh Fees</button>
+                </div>
+                <div id="tuition-list" class="tile-grid"></div>
+                <p class="muted small-note">
+                    Fees must be verified with the respective school. These figures are estimates,
+                    not official quotations.
+                </p>
+            </div>
+        </section>
+
+        <!-- ASSESSMENT RESULTS -->
+        <section id="page-results" class="page hidden">
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Assessment Results</h2>
+                        <p>View previous assessment summaries and recommendations.</p>
+                    </div>
+                    <button class="secondary-btn" onclick="loadResults()">Refresh</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Result ID</th>
+                                <th>Student</th>
+                                <th>Strongest Interest</th>
+                                <th>Recommended Course</th>
+                                <th>Match Score</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table"></tbody>
+                    </table>
+                </div>
+            </div>
+            <p class="muted small-note">
+                Scores summarize recorded answers under configured categories. They are not a
+                clinical aptitude test or a guaranteed prediction of student success.
+            </p>
+        </section>
+
+        <footer>
+            CareerPath · Career and College Course Assessment System · Prototype
+        </footer>
+    </main>
+
+    <script src="/static/app.js"></script>
+
+    <script>
+    /*
+      These controls call the added API endpoints.
+      The existing app.js remains responsible for the original pages.
+    */
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const importForm = document.getElementById("excel-import-form");
+
+        if (importForm) {
+            importForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const fileInput = document.getElementById("question-excel-file");
+                const message = document.getElementById("excel-import-message");
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    message.textContent = "Please choose an .xlsx file first.";
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append("file", file);
+
+                message.textContent = "Importing questions...";
+
+                try {
+                    const response = await fetch("/api/questions/import", {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(
+                            typeof result.detail === "string"
+                                ? result.detail
+                                : JSON.stringify(result.detail)
+                        );
+                    }
+
+                    message.textContent =
+                        `Imported: ${result.imported}. ` +
+                        `Rows with errors: ${(result.errors || []).length}.`;
+
+                    if (typeof loadQuestions === "function") {
+                        loadQuestions();
+                    }
+
+                    fileInput.value = "";
+                } catch (error) {
+                    message.textContent = "Import failed: " + error.message;
+                }
+            });
+        }
+
+        const matchingForm = document.getElementById("matching-form");
+
+        if (matchingForm) {
+            matchingForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const skills = document.getElementById("matching-skills").value.trim();
+                const output = document.getElementById("matching-results");
+
+                output.textContent = "Searching for matching programs...";
+
+                try {
+                    const response = await fetch(
+                        "/api/program-matching?skills=" + encodeURIComponent(skills)
+                    );
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.detail || "Matching request failed.");
+                    }
+
+                    output.replaceChildren();
+
+                    if (!data.results || data.results.length === 0) {
+                        output.textContent = "No programs found in the database.";
+                        return;
+                    }
+
+                    data.results.forEach(function (program) {
+                        const card = document.createElement("article");
+                        card.className = "record-item";
+
+                        const title = document.createElement("h3");
+                        title.textContent = program.program_name || "Unnamed program";
+
+                        const score = document.createElement("p");
+                        score.textContent = "Text matching score: " + program.matching_score + "%";
+
+                        const skillsText = document.createElement("p");
+                        skillsText.textContent =
+                            "Matched skills: " +
+                            ((program.matched_skills || []).join(", ") || "None");
+
+                        const description = document.createElement("p");
+                        description.textContent = program.description || "No description recorded.";
+
+                        card.append(title, score, skillsText, description);
+                        output.appendChild(card);
+                    });
+                } catch (error) {
+                    output.textContent = "Matching failed: " + error.message;
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>

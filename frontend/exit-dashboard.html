@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerPath | Survey Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { margin: 0; padding: 24px; background: #f4f7fb; color: #1d2b44; font-family: Arial, sans-serif; }
+    header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    a, button { background: #1e5ab6; color: white; padding: 10px 14px; border: 0; border-radius: 8px; text-decoration: none; cursor: pointer; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+    .stat, .chart-card { background: white; border-radius: 14px; padding: 18px; box-shadow: 0 3px 15px #162b4410; min-width: 0; }
+    .stat strong { font-size: 30px; display: block; color: #1e5ab6; margin-top: 8px; }
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .chart-card { height: 340px; }
+    .chart-card canvas { max-height: 270px; }
+    #status { color: #64748b; }
+    @media(max-width: 700px) { .chart-grid, .stat-grid { grid-template-columns: 1fr; } body { padding: 12px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>CareerPath Survey Analytics</h1>
+      <p>Curriculum Exit Tracking · Database-driven graphs</p>
+    </div>
+    <div>
+      <a href="/">Main Dashboard</a>
+      <a href="/static/exit-survey.html">Open Survey</a>
+      <button onclick="loadAnalytics()">Refresh</button>
+    </div>
+  </header>
+
+  <p id="status">Loading analytics...</p>
+
+  <div class="stat-grid">
+    <div class="stat">Total Survey Responses<strong id="totalResponses">0</strong></div>
+    <div class="stat">College / Higher Education<strong id="collegeTotal">0</strong></div>
+    <div class="stat">Employment<strong id="employmentTotal">0</strong></div>
+  </div>
+
+  <div class="chart-grid">
+    <section class="chart-card"><h3>Planned Curriculum Exit</h3><canvas id="exitChart"></canvas></section>
+    <section class="chart-card"><h3>Students by Strand</h3><canvas id="strandChart"></canvas></section>
+    <section class="chart-card"><h3>What Students Learned</h3><canvas id="learningChart"></canvas></section>
+    <section class="chart-card"><h3>Problems Encountered</h3><canvas id="problemChart"></canvas></section>
+    <section class="chart-card"><h3>Study Support</h3><canvas id="supportChart"></canvas></section>
+    <section class="chart-card"><h3>Can Students Recommend Their School?</h3><canvas id="recommendChart"></canvas></section>
+    <section class="chart-card"><h3>Preferred Colleges / Universities</h3><canvas id="collegeChart"></canvas></section>
+    <section class="chart-card"><h3>Preferred Work Choices</h3><canvas id="workChart"></canvas></section>
+    <section class="chart-card"><h3>Business Ideas</h3><canvas id="businessChart"></canvas></section>
+    <section class="chart-card"><h3>TESDA Course Choices</h3><canvas id="tesdaChart"></canvas></section>
+  </div>
+
+  <script>
+    const activeCharts = {};
+
+    function drawChart(canvasId, chartType, rows, label) {
+      const canvas = document.getElementById(canvasId);
+
+      if (activeCharts[canvasId]) {
+        activeCharts[canvasId].destroy();
+      }
+
+      const labels = rows.map(row => row.label);
+      const values = rows.map(row => row.count);
+
+      activeCharts[canvasId] = new Chart(canvas, {
+        type: chartType,
+        data: {
+          labels,
+          datasets: [{
+            label,
+            data: values,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: chartType === "bar" ? "y" : "x",
+          plugins: {
+            legend: { display: chartType === "doughnut" || chartType === "pie" }
+          },
+          scales: chartType === "bar" ? {
+            x: { beginAtZero: true, ticks: { precision: 0 } }
+          } : {}
+        }
+      });
+    }
+
+    async function loadAnalytics() {
+      const status = document.getElementById("status");
+      status.textContent = "Loading analytics...";
+
+      try {
+        const response = await fetch("/api/exit-surveys/analytics");
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Could not load analytics.");
+        }
+
+        document.getElementById("totalResponses").textContent =
+          data.total_responses || 0;
+
+        const exits = data.curriculum_exits || [];
+        document.getElementById("collegeTotal").textContent =
+          exits.find(item => item.label === "College / Higher Education")?.count || 0;
+
+        document.getElementById("employmentTotal").textContent =
+          exits.find(item => item.label === "Employment")?.count || 0;
+
+        drawChart("exitChart", "doughnut", data.curriculum_exits || [], "Students");
+        drawChart("strandChart", "bar", data.strands || [], "Students");
+        drawChart("learningChart", "bar", data.learnings || [], "Selections");
+        drawChart("problemChart", "bar", data.problems || [], "Selections");
+        drawChart("supportChart", "bar", data.study_support || [], "Selections");
+        drawChart("recommendChart", "pie", data.school_recommendations || [], "Responses");
+        drawChart("collegeChart", "bar", data.college_choices || [], "Mentions");
+        drawChart("workChart", "bar", data.work_choices || [], "Mentions");
+        drawChart("businessChart", "bar", data.business_choices || [], "Mentions");
+        drawChart("tesdaChart", "bar", data.tesda_choices || [], "Mentions");
+
+        status.textContent =
+          `Analytics updated. ${data.total_responses || 0} survey response(s) found.`;
+
+      } catch (error) {
+        status.textContent = "Unable to load graphs: " + error.message;
+        console.error(error);
+      }
+    }
+
+    loadAnalytics();
+  </script>
+</body>
+</html>

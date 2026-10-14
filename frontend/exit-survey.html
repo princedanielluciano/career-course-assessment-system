@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerPath | Curriculum Exit Survey</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f7fb; color: #1d2b44; }
+    .survey-wrap { max-width: 1000px; margin: 28px auto; padding: 20px; }
+    .survey-card { background: white; padding: 24px; margin-bottom: 20px; border-radius: 14px; box-shadow: 0 3px 15px #162b4410; }
+    h1, h2 { color: #173e78; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input, select, textarea { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ccd5e1; border-radius: 7px; }
+    textarea { min-height: 85px; }
+    .choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .choices label { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; }
+    .choices input { width: auto; margin-top: 3px; }
+    button { background: #1e5ab6; color: white; border: 0; border-radius: 8px; padding: 12px 20px; cursor: pointer; font-weight: bold; }
+    button:hover { background: #16488f; }
+    .hint { color: #64748b; font-size: 13px; }
+    #message { margin-top: 12px; font-weight: bold; }
+    @media(max-width: 650px) { .form-grid, .choices { grid-template-columns: 1fr; } .survey-wrap { padding: 10px; } }
+  </style>
+</head>
+<body>
+  <main class="survey-wrap">
+    <p><a href="/">← Back to CareerPath Dashboard</a></p>
+    <h1>Senior High School Curriculum Exit Survey</h1>
+    <p>Career Guidance · Grade 12 Learners</p>
+
+    <form id="exitSurveyForm">
+      <section class="survey-card">
+        <h2>1. Learner Information</h2>
+        <div class="form-grid">
+          <div><label for="lrn">Learner Reference Number</label><input id="lrn"></div>
+          <div><label for="school">School Name</label><input id="school"></div>
+          <div><label for="lastName">Last Name</label><input id="lastName"></div>
+          <div><label for="firstName">First Name *</label><input id="firstName" required></div>
+          <div><label for="middleName">Middle Name</label><input id="middleName"></div>
+          <div><label for="track">Track</label><input id="track" placeholder="e.g. Academic, TVL"></div>
+          <div><label for="gradeSection">Grade & Section</label><input id="gradeSection" placeholder="Grade 12 - Section"></div>
+          <div><label for="age">Age</label><input id="age" type="number" min="10" max="100"></div>
+          <div><label for="dob">Date of Birth</label><input id="dob" type="date"></div>
+          <div><label for="strand">Strand</label><input id="strand" placeholder="e.g. STEM, HUMSS, ABM, TVL"></div>
+          <div><label for="sex">Sex</label>
+            <select id="sex"><option value="">Select</option><option>Male</option><option>Female</option><option>Prefer not to say</option></select>
+          </div>
+          <div><label for="religion">Religion</label><input id="religion"></div>
+          <div><label for="birthplace">Place of Birth</label><input id="birthplace"></div>
+          <div><label for="address">Home Address</label><input id="address"></div>
+          <div><label for="father">Father's Name</label><input id="father"></div>
+          <div><label for="fatherOccupation">Father's Occupation</label><input id="fatherOccupation"></div>
+          <div><label for="mother">Mother's Name</label><input id="mother"></div>
+          <div><label for="motherOccupation">Mother's Occupation</label><input id="motherOccupation"></div>
+          <div><label for="parentsStatus">Parents' Present Status</label>
+            <select id="parentsStatus">
+              <option value="">Select</option><option>Married</option><option>Not Married</option><option>Not Separated</option><option>Separated</option>
+            </select>
+          </div>
+          <div><label for="adviser">Class Adviser</label><input id="adviser"></div>
+          <div><label for="counselor">Guidance Counselor</label><input id="counselor"></div>
+          <div><label for="guidanceAdvocate">Guidance Advocate</label><input id="guidanceAdvocate"></div>
+          <div><label for="careerAdvocate">Career Advocate</label><input id="careerAdvocate"></div>
+        </div>
+      </section>
+
+      <section class="survey-card">
+        <h2>2. What have you learned during your stay in this school?</h2>
+        <p class="hint">Choose as many as apply.</p>
+        <div class="choices" id="learnings">
+          <label><input type="checkbox" value="Personal and Moral Values">Personal and Moral Values</label>
+          <label><input type="checkbox" value="Social Relations">Social Relations</label>
+          <label><input type="checkbox" value="Academic">Academic</label>
+          <label><input type="checkbox" value="Career Development">Career Development</label>
+        </div>
+      </section>
+
+      <section class="survey-card">
+        <h2>3. What problems have you encountered?</h2>
+        <p class="hint">Choose as many as apply.</p>
+        <div class="choices" id="problems">
+          <label><input type="checkbox" value="Personal and Moral Values">Personal and Moral Values</label>
+          <label><input type="checkbox" value="Social Relations">Social Relations</label>
+          <label><input type="checkbox" value="Academic">Academic</label>
+          <label><input type="checkbox" value="Career Development">Career Development</label>
+        </div>
+      </section>
+
+      <section class="survey-card">
+        <h2>4. Planned Curriculum Exit</h2>
+        <label for="plannedExit">What do you plan to pursue after Senior High School? *</label>
+        <select id="plannedExit" required>
+          <option value="">Choose an option</option>
+          <option>College / Higher Education</option>
+          <option>Employment</option>
+          <option>Entrepreneurship</option>
+          <option>TESDA / Middle Skills Development</option>
+          <option>Other</option>
+        </select>
+        <br><br>
+        <label for="exitReason">Reason for choosing this curriculum exit</label>
+        <textarea id="exitReason" placeholder="Write your reason. If Other, you may write NA."></textarea>
+      </section>
+
+      <section class="survey-card">
+        <h2>5. College / Higher Education</h2>
+        <p class="hint">If you are not choosing college, you may leave these fields blank or enter NA.</p>
+        <label for="collegeChoices">Three colleges/universities you plan to enroll in</label>
+        <textarea id="collegeChoices" placeholder="1.&#10;2.&#10;3."></textarea>
+        <p><strong>Who will support your studies?</strong> Choose as many as apply.</p>
+        <div class="choices" id="studySupport">
+          <label><input type="checkbox" value="Parent/s">Parent/s</label>
+          <label><input type="checkbox" value="Sibling/s">Sibling/s</label>
+          <label><input type="checkbox" value="Grandparent/s">Grandparent/s</label>
+          <label><input type="checkbox" value="Relatives">Relatives (aunt, uncle, cousins)</label>
+          <label><input type="checkbox" value="Find a job to support studies">Will find a job and support studies</label>
+          <label><input type="checkbox" value="Search for a sponsor">Search for a sponsor</label>
+          <label><input type="checkbox" value="Government scholarship">Apply for government scholarship</label>
+          <label><input type="checkbox" value="College/university scholarship">Apply for a college/university scholarship</label>
+        </div>
+      </section>
+
+      <section class="survey-card">
+        <h2>6. Employment</h2>
+        <label for="workChoices">Three types of work and where you plan to work</label>
+        <textarea id="workChoices" placeholder="1. Job / workplace&#10;2. Job / workplace&#10;3. Job / workplace"></textarea>
+      </section>
+
+      <section class="survey-card">
+        <h2>7. Entrepreneurship</h2>
+        <label for="businessChoices">Three businesses you may operate</label>
+        <textarea id="businessChoices" placeholder="1.&#10;2.&#10;3."></textarea>
+      </section>
+
+      <section class="survey-card">
+        <h2>8. TESDA / Middle Skills Development</h2>
+        <label for="tesdaChoices">Three National Certificates (NC) or courses you may take</label>
+        <textarea id="tesdaChoices" placeholder="1.&#10;2.&#10;3."></textarea>
+      </section>
+
+      <section class="survey-card">
+        <h2>9. Other Plans</h2>
+        <label for="otherPlans">Other plans after Senior High School (up to 3)</label>
+        <textarea id="otherPlans" placeholder="1.&#10;2.&#10;3."></textarea>
+        <br><br>
+        <label for="otherPlansReasons">Reasons for your other plans</label>
+        <textarea id="otherPlansReasons"></textarea>
+      </section>
+
+      <section class="survey-card">
+        <h2>10. School Recommendation</h2>
+        <label for="recommendSchool">Can you recommend your school to relatives and friends?</label>
+        <select id="recommendSchool">
+          <option value="">Select</option><option>Yes</option><option>No</option>
+        </select>
+        <br><br>
+        <label for="recommendationReason">If No, why?</label>
+        <textarea id="recommendationReason"></textarea>
+        <br><br>
+        <label for="signature">Student Signature over Printed Name</label>
+        <input id="signature">
+      </section>
+
+      <section class="survey-card">
+        <p class="hint">The information collected should be handled only by authorized school personnel. Confirm your school's privacy and consent requirements before collecting actual learner data.</p>
+        <button type="submit">Save Curriculum Exit Survey</button>
+        <p id="message" role="status"></p>
+      </section>
+    </form>
+  </main>
+  <script src="/static/exit-survey.js"></script>
+</body>
+</html>
